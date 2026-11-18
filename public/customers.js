@@ -81,4 +81,36 @@ window.CUSTOMERS = [
       },
     ],
   },
+  
+  
+   {
+    trackingId: 'WWW-DXB-10003',
+    customerName: 'Win Win Customer',
+    phoneNumber: '+91 98765 40210',
+    productName: 'iPhone 14 Pro Max 256GB — Desert Titanium',
+    orderDate: '2026-11-17',
+    originCity: 'One Deira Mall, Dubai, UAE',
+    destinationCity: 'India',
+    deliveryAddress: 'Mumbai, Maharashtra, India',
+    currentLocation: 'One Deira Mall, Dubai, UAE',
+    status: 'Product Packed',
+    estimatedDelivery: '2026-12-08',
+    updates: [
+      {
+        date: '2026-11-17',
+        time: '10:00',
+        location: 'One Deira Mall, Dubai, UAE',
+        status: 'Pending',
+        notes: 'Order confirmed and queued for packing.',
+      },
+      {
+        date: '2026-11-18',
+        time: '12:30',
+        location: 'One Deira Mall, Dubai, UAE',
+        status: 'Product Packed',
+        notes: 'Device verified, packed, and sealed at One Deira Mall, Dubai.',
+      },
+    ],
+  },
+  
 ];
