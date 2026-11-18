@@ -1,0 +1,6 @@
+{
+  "name": "Win Win Wireless Shipment Tracking",
+  "description": "Mobile phone shipment tracking portal and operations dashboard for Win Win Wireless across the India to Dubai logistics corridor.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
