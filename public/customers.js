@@ -42,41 +42,7 @@ window.CUSTOMERS = [
         status: 'Pending',
         notes: 'Order confirmed and queued for packing.',
       },
-      {
-        date: '2026-11-18',
-        time: '12:30',
-        location: 'One Deira Mall, Dubai, UAE',
-        status: 'Product Packed',
-        notes: 'Device verified, packed, and sealed at One Deira Mall, Dubai.',
-      },
-          {
-  date: '2026-11-19',
-  time: '15:00',
-  location: 'Dubai Dispatch Hub, UAE',
-  status: 'Dispatch',
-  notes: 'Ready for dispatch from Dubai hub.',
-},
-{
-  date: '2026-11-22',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'reach customs.',
-},
-{
-  date: '2026-11-27',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'custom clearance.',
-},
-{
-  date: '2026-12-04',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'Reach chennai.',
-},
+     
     ],
   },
 
@@ -100,41 +66,7 @@ window.CUSTOMERS = [
         status: 'Pending',
         notes: 'Order confirmed and queued for packing.',
       },
-      {
-        date: '2026-11-18',
-        time: '12:30',
-        location: 'One Deira Mall, Dubai, UAE',
-        status: 'Product Packed',
-        notes: 'Device verified, packed, and sealed at One Deira Mall, Dubai.',
-      },
-      {
-  date: '2026-11-19',
-  time: '15:00',
-  location: 'Dubai Dispatch Hub, UAE',
-  status: 'Dispatch',
-  notes: 'Ready for dispatch from Dubai hub.',
-},
-{
-  date: '2026-11-22',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'reach customs.',
-},
-{
-  date: '2026-11-27',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'custom clearance.',
-},
-{
-  date: '2026-12-04',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'Reach chennai.',
-},
+
     ],
   },
   
@@ -173,27 +105,8 @@ window.CUSTOMERS = [
   status: 'Dispatch',
   notes: 'Ready for dispatch from Dubai hub.',
 },
-{
-  date: '2026-11-20',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'reach customs.',
-},
-{
-  date: '2026-11-29',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'custom clearance.',
-},
-{
-  date: '2026-12-02',
-  time: '15:00',
-  location: 'customs, UAE',
-  status: 'Dispatch',
-  notes: 'Reach chennai.',
-},
+
+
     ],
   },
   
