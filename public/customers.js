@@ -24,7 +24,7 @@
 window.CUSTOMERS = [
   {
     trackingId: '64467130195',
-    customerName: 'Vignesh Senthilkumar',
+    customerName: 'Vijay',
     productName:
       'Duo (2), 17 Pro (1), 8 Pro (2), 18 Pro Max (2), 15 Pro Max (1), 17 Pro Max (2)',
     orderDate: '2026-11-15',
