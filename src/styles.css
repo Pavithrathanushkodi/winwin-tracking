@@ -725,6 +725,10 @@ button {
   background-color: rgba(212, 175, 55, 0.7);
 }
 
+.timeline-connector-upcoming {
+  background-color: #e5e5e5;
+}
+
 .timeline-marker {
   position: absolute;
   left: 0;
@@ -753,6 +757,12 @@ button {
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
 }
 
+.timeline-marker-upcoming {
+  border-color: #d4d4d4;
+  background-color: var(--bg-white);
+  color: #a3a3a3;
+}
+
 .timeline-dot {
   width: 0.5rem;
   height: 0.5rem;
@@ -770,6 +780,18 @@ button {
 .timeline-box-current {
   background-color: var(--bg-gold-soft);
   border-color: var(--gold-accent);
+}
+
+.timeline-box-upcoming {
+  background-color: var(--bg-white);
+  border-color: #ededed;
+  opacity: 0.72;
+}
+
+.timeline-upcoming-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #a3a3a3;
 }
 
 .timeline-box-top {
@@ -1228,7 +1250,7 @@ button {
   }
 
   .flow-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
