@@ -4,110 +4,63 @@
  * Linked directly in index.html (<script src="/customers.js"></script>).
  *
  * HOW TO ADD & UPDATE EACH CUSTOMER ONE BY ONE:
- * 1. Edit the customer entry below or copy it to add another customer inside
+ * 1. Edit a customer entry below or copy one to add another customer inside
  *    `window.CUSTOMERS = [ ... ];`.
- * 2. Update `trackingId`, `customerName`, `phoneNumber`, `productName`, `orderDate`,
- *    `deliveryAddress`, `currentLocation`, `status`, and `estimatedDelivery`.
- * 3. Add each progress update one by one inside `updates: [ ... ]` and set
- *    `status` and `currentLocation` to the latest step.
+ * 2. Update `trackingId`, `customerName`, `productName`, `orderDate`,
+ *    `deliveryAddress`, `estimatedDelivery`, and `updates`.
+ * 3. Add each progress update one by one inside `updates: [ ... ]` with its `date`.
+ *    The latest dated step automatically becomes Current Status & Where It Is Now.
  * 4. Save this file and search the Tracking ID on the website to see updates.
- *
- * VALID `status` VALUES:
- *   - 'Pending'
- *   - 'Product Packed'
- *   - 'Dispatch'
- *   - 'Shipped'
- *   - 'Customs Clearance'
- *   - 'Reach India'
  */
 
 window.CUSTOMERS = [
   {
-    trackingId: '123456789',
-    customerName: 'Praveen',
-    phoneNumber: '+91 98765 43210',
-    productName: 'iPhone 16 Pro Max 256GB — Desert Titanium',
-    orderDate: '2026-11-17',
-    originCity: 'One Deira Mall, Dubai, UAE',
-    destinationCity: 'India',
-    deliveryAddress: 'Chennai, India',
-    currentLocation: 'One Deira Mall, Dubai, UAE',
-    status: 'Product Packed',
-    estimatedDelivery: '2026-12-08',
-    updates: [
-      {
-        date: '2026-11-17',
-        time: '10:00',
-        location: 'One Deira Mall, Dubai, UAE',
-        status: 'Pending',
-        notes: 'Order confirmed and queued for packing.',
-      },
-     
-    ],
-  },
-
-   {
-    trackingId: '123459876',
-    customerName: 'Rajesh',
-    phoneNumber: '+91 98765 12110',
-    productName: 'iPhone 14 Pro Max 256GB — Desert Titanium',
-    orderDate: '2026-11-17',
-    originCity: 'One Deira Mall, Dubai, UAE',
-    destinationCity: 'India',
-    deliveryAddress: 'Mumbai, Maharashtra, India',
-    currentLocation: 'One Deira Mall, Dubai, UAE',
-    status: 'Product Packed',
-    estimatedDelivery: '2026-12-08',
-    updates: [
-      {
-        date: '2026-11-17',
-        time: '10:00',
-        location: 'One Deira Mall, Dubai, UAE',
-        status: 'Pending',
-        notes: 'Order confirmed and queued for packing.',
-      },
-
-    ],
-  },
-  
-  
-   {
-    trackingId: '987654321',
-    customerName: 'Win Win Customer',
-    phoneNumber: '+91 98765 40210',
-    productName: 'iPhone 13 Pro Max 256GB — Desert Titanium, 2 phones',
+    trackingId: '64467130195',
+    customerName: 'Vignesh Senthilkumar',
+    productName:
+      'Duo (2), 17 Pro (1), 8 Pro (2), 18 Pro Max (2), 15 Pro Max (1), 17 Pro Max (2)',
     orderDate: '2026-11-15',
     originCity: 'One Deira Mall, Dubai, UAE',
-    destinationCity: 'India',
-    deliveryAddress: 'Mumbai, Maharashtra, India',
-    currentLocation: 'One Deira Mall, Dubai, UAE',
-    status: 'Product Packed',
-    estimatedDelivery: '2026-12-08',
+    destinationCity: 'Coimbatore, India',
+    deliveryAddress: 'Coimbatore, Tamil Nadu, India',
+    estimatedDelivery: '2026-12-04',
     updates: [
       {
         date: '2026-11-15',
         time: '10:00',
         location: 'One Deira Mall, Dubai, UAE',
-        status: 'Pending',
-        notes: 'Order confirmed and queued for packing.',
+        status: 'Order Confirmed',
+        notes: 'Order confirmed at One Deira Mall, Dubai.',
       },
       {
         date: '2026-11-16',
-        time: '12:30',
+        time: '13:30',
         location: 'One Deira Mall, Dubai, UAE',
-        status: 'Product Packed',
-        notes: 'Device verified, packed, and sealed at One Deira Mall, Dubai.',
+        status: 'Packed',
+        notes: 'All units verified, packed, and sealed for shipment.',
       },
       {
-  date: '2026-11-17',
-  time: '15:00',
-  location: 'Dubai Dispatch Hub, UAE',
-  status: 'Dispatch',
-  notes: 'Ready for dispatch from Dubai hub.',
-},
-
-
+        date: '2026-11-18',
+        time: '18:15',
+        location: 'Dubai, UAE',
+        status: 'Shipping Started',
+        notes: 'Shipping started from Dubai to India.',
+      },
+      {
+        date: '2026-11-21',
+        time: '11:40',
+        location: 'Mumbai (Bombay), Maharashtra, India',
+        status: 'Reached Bombay',
+        notes: 'Shipment arrived in Bombay and cleared for onward transit to Coimbatore.',
+      },
+      {
+        date: '2026-11-24',
+        time: '09:30',
+        location: 'In Transit — Bombay to Coimbatore',
+        status: 'In Transit to Coimbatore',
+        notes: 'Currently travelling from Bombay to Coimbatore.',
+      },
     ],
   },
-  
+
 ];

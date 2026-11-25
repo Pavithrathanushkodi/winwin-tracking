@@ -8,6 +8,10 @@ const STATUS_META = {
     className: 'status-pending',
     icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
   },
+  Packed: {
+    className: 'status-packed',
+    icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/><path d="m7.5 4.27 9 5.15"/></svg>`,
+  },
   'Product Packed': {
     className: 'status-packed',
     icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/><path d="m7.5 4.27 9 5.15"/></svg>`,
@@ -36,6 +40,14 @@ const STATUS_META = {
     className: 'status-out',
     icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>`,
   },
+  'Order Confirmed': {
+    className: 'status-dispatch',
+    icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+  },
+  'Shipping Started': {
+    className: 'status-shipped',
+    icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>`,
+  },
   'Reach India': {
     className: 'status-reach-india',
     icon: `<svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
@@ -54,7 +66,19 @@ function getStatusMeta(status) {
   const lower = raw.toLowerCase();
   const matchedKey = Object.keys(STATUS_META).find((k) => k.toLowerCase() === lower);
   if (matchedKey) {
-    return { label: matchedKey, ...STATUS_META[matchedKey] };
+    return { label: raw, ...STATUS_META[matchedKey] };
+  }
+  if (lower.startsWith('reach') || lower.startsWith('delivered')) {
+    return { label: raw, ...STATUS_META['Reach India'] };
+  }
+  if (lower.includes('transit') || lower.includes('travel')) {
+    return { label: raw, ...STATUS_META['Out for Delivery'] };
+  }
+  if (lower.includes('ship')) {
+    return { label: raw, ...STATUS_META.Shipped };
+  }
+  if (lower.includes('confirm')) {
+    return { label: raw, ...STATUS_META['Order Confirmed'] };
   }
   return { label: raw || 'Pending', ...STATUS_META.Pending };
 }
@@ -118,6 +142,10 @@ function findCustomerShipment(rawQuery) {
   );
 }
 
+function hasStepDate(upd) {
+  return Boolean(upd && upd.date !== undefined && upd.date !== null && String(upd.date).trim() !== '');
+}
+
 function renderShipmentResult(shipment) {
   const trackingId = getField(shipment, 'trackingId', 'trackId', 'id');
   const customerName = getField(shipment, 'customerName', 'name');
@@ -128,18 +156,29 @@ function renderShipmentResult(shipment) {
   const estimatedDelivery = getField(shipment, 'estimatedDelivery', 'deliveryDate');
 
   const rawUpdates = Array.isArray(shipment.updates) ? shipment.updates : [];
-  const updates = [...rawUpdates].sort((a, b) => {
-    const dtA = `${a.date || ''}T${a.time || '00:00'}`;
-    const dtB = `${b.date || ''}T${b.time || '00:00'}`;
-    return dtA.localeCompare(dtB);
-  });
+  const datedUpdates = rawUpdates
+    .map((u, i) => ({ u, i }))
+    .filter((entry) => hasStepDate(entry.u))
+    .sort((a, b) => {
+      const dtA = `${String(a.u.date).trim()}T${a.u.time || '00:00'}`;
+      const dtB = `${String(b.u.date).trim()}T${b.u.time || '00:00'}`;
+      const cmp = dtA.localeCompare(dtB);
+      return cmp !== 0 ? cmp : a.i - b.i;
+    })
+    .map((entry) => entry.u);
 
-  const latestUpdate = updates.length > 0 ? updates[updates.length - 1] : null;
-  const effectiveStatus =
-    getField(shipment, 'status') || (latestUpdate ? latestUpdate.status : 'Pending');
-  const effectiveLocation =
-    getField(shipment, 'currentLocation', 'location') ||
-    (latestUpdate ? latestUpdate.location : 'One Deira Mall, Dubai, UAE');
+  const undatedUpdates = rawUpdates.filter((u) => !hasStepDate(u));
+  const updates = [...datedUpdates, ...undatedUpdates];
+
+  const currentIndex = datedUpdates.length > 0 ? datedUpdates.length - 1 : -1;
+  const latestDatedUpdate = currentIndex >= 0 ? datedUpdates[currentIndex] : null;
+
+  const effectiveStatus = latestDatedUpdate
+    ? latestDatedUpdate.status
+    : getField(shipment, 'status') || 'Pending';
+  const effectiveLocation = latestDatedUpdate
+    ? latestDatedUpdate.location
+    : getField(shipment, 'currentLocation', 'location') || 'One Deira Mall, Dubai, UAE';
 
   if (updates.length === 0) {
     updates.push({
@@ -151,34 +190,57 @@ function renderShipmentResult(shipment) {
     });
   }
 
-  const updateLabel = updates.length === 1 ? 'update' : 'updates';
+  const completedCount = datedUpdates.length > 0 ? datedUpdates.length : 1;
+  const totalCount = updates.length;
+  const updateLabel =
+    undatedUpdates.length > 0
+      ? `${completedCount} of ${totalCount} steps`
+      : `${totalCount} ${totalCount === 1 ? 'update' : 'updates'}`;
   const origin = getField(shipment, 'originCity', 'origin') || 'One Deira Mall, Dubai, UAE';
   const destination = getField(shipment, 'destinationCity', 'destination') || 'India';
 
   const timelineItemsHtml = updates
     .map((upd, idx) => {
-      const isCurrent = idx === updates.length - 1;
-      const isFirst = idx === 0;
-      const markerClass = isCurrent
-        ? 'timeline-marker timeline-marker-current'
-        : isFirst
-          ? 'timeline-marker timeline-marker-first'
-          : 'timeline-marker';
+      const isDated = hasStepDate(upd) || datedUpdates.length === 0;
+      const isCurrent = datedUpdates.length > 0 ? idx === currentIndex : idx === 0;
+      const isFirst = idx === 0 && isDated;
+      const isLast = idx === updates.length - 1;
+
+      const markerClass = !isDated
+        ? 'timeline-marker timeline-marker-upcoming'
+        : isCurrent
+          ? 'timeline-marker timeline-marker-current'
+          : isFirst
+            ? 'timeline-marker timeline-marker-first'
+            : 'timeline-marker';
 
       const markerInner = isCurrent
         ? `<svg class="icon-xs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>`
         : `<span class="timeline-dot"></span>`;
 
+      const connectorClass =
+        !isDated || isCurrent ? 'timeline-connector timeline-connector-upcoming' : 'timeline-connector';
+
+      const boxClass = !isDated
+        ? 'timeline-box timeline-box-upcoming'
+        : isCurrent
+          ? 'timeline-box timeline-box-current'
+          : 'timeline-box';
+
       const timePart = upd.time ? ` · ${escapeHtml(upd.time)}` : '';
+      const dateDisplayHtml = isDated
+        ? `<span>${escapeHtml(formatDisplayDate(upd.date))}${timePart}</span>`
+        : `<span class="timeline-upcoming-label">Awaiting date</span>`;
+
       const notesHtml = upd.notes
         ? `<p class="timeline-notes">${escapeHtml(upd.notes)}</p>`
         : '';
 
       return `
-        <li class="timeline-item" style="animation-delay: ${idx * 90}ms;">
-          ${!isCurrent ? '<span class="timeline-connector" aria-hidden="true"></span>' : ''}
+        <li class="timeline-item" style="animation-delay: ${idx * 80}ms;">
+          ${!isLast ? `<span class="${connectorClass}" aria-hidden="true"></span>` : ''}
           <span class="${markerClass}" aria-hidden="true">${markerInner}</span>
-          <div class="timeline-box ${isCurrent ? 'timeline-box-current' : ''}">
+          <div class="${boxClass}">
             <div class="timeline-box-top">
               <div class="timeline-box-left">
                 ${renderStatusHtml(upd.status)}
@@ -190,7 +252,7 @@ function renderShipmentResult(shipment) {
                   <circle cx="12" cy="12" r="10" />
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <span>${escapeHtml(formatDisplayDate(upd.date))}${timePart}</span>
+                ${dateDisplayHtml}
               </div>
             </div>
             ${notesHtml}
@@ -291,7 +353,7 @@ function renderShipmentResult(shipment) {
       <div class="timeline-card">
         <div class="timeline-header">
           <h2 class="timeline-title">Transit Progress</h2>
-          <span class="timeline-count tabular-nums">${updates.length} ${updateLabel}</span>
+          <span class="timeline-count tabular-nums">${updateLabel}</span>
         </div>
         <ol class="timeline-list">
           ${timelineItemsHtml}
