@@ -31,7 +31,7 @@ window.CUSTOMERS = [
     originCity: 'One Deira Mall, Dubai, UAE',
     destinationCity: 'Coimbatore, India',
     deliveryAddress: 'Coimbatore, Tamil Nadu, India',
-    estimatedDelivery: '2026-12-04',
+    estimatedDelivery: '2026-11-27',
     updates: [
       {
         date: '2026-11-15',
@@ -76,15 +76,15 @@ window.CUSTOMERS = [
         notes: 'Courier collects the parcel.',
       },
       {
-        date: '2026-11-25',
+        date: '2026-11-22',
         time: '09:30',
         location: 'Bombay to Coimbatore, India',
         status: 'In Transit',
         notes: 'Parcel moves between courier hubs and destinations (Bombay to Coimbatore).',
       },
       {
-        date: '',
-        time: '',
+        date: '2026-11-25',
+        time: '09:00',
         location: 'Coimbatore, Tamil Nadu, India',
         status: 'Out for Delivery',
         notes: 'Parcel is with the local delivery agent.',
